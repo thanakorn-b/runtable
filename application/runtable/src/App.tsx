@@ -13,6 +13,7 @@ const TopBar = styled.div`
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #E9EAEE;
+  position: fixed;
 `;
 
 const Logo = styled.div`
@@ -33,6 +34,7 @@ const Top = styled.div`
 `;
 
 const Body = styled.div`
+  margin-top: 50px;
   display: flex;
   width: 100%;
   background-color: #EEF2F5;
@@ -91,7 +93,7 @@ const ButtonSubmit = styled.button`
   height: 35px;
   border-radius: 3px;
   background-color: rgb(0, 182, 230);
-  margin-top: 7px;
+  margin-bottom: 7px;
   color: white;
 `;
 
@@ -114,6 +116,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const ContentInside = styled.div`
@@ -145,11 +148,11 @@ const TableType = styled.div`
 `;
 
 const TableColumn = styled.div`
-  margin-right: 30px;
+  margin-right: 20px;
 `;
 
 const DivWidth = styled.div`
-  width: 60px;
+  width: 56px;
   /* justify-content: center;
   display: flex; */
 `;
@@ -167,104 +170,34 @@ const InputName = styled.input`
 `;
 
 const InputWidth = styled.input`
-  width: 28px;
+  width: 48px;
   font-size: 16px;
   border-color: transparent;
 `;
 
 interface Table {
-  id: number,
+  runner_id: number,
   name: string,
-  running: { id: number, day: number, distant: number }[],
+  running: { running_id: number, day: number, distant: number }[],
   total: number,
 };
 
 function App() {
-  // const API_HOST = 'http://localhost:8000/';
-  // const [tables, setTables] = useState<Table[]>([]);
+  const API_HOST = 'http://127.0.0.1:8000/';
+  const [tables, setTables] = useState<Table[]>([]);
 
-  // useEffect(() => {
-  //   fetch(`${API_HOST}runner/`, {
-  //     method: 'GET',
-  //   }).then(response => response.json())
-  //     .then(data => {
-  //       setTables(data);
-  //     });
-  // }, []);
-
-  const [tables, setTables] = useState<Table[]>([
-    {
-        "id": 1,
-        "name": "Alex",
-        "running": [
-            {
-                "id": 1,
-                "day": 1,
-                "distant": 10
-            },
-            {
-                "id": 4,
-                "day": 2,
-                "distant": 30
-            },
-            {
-                "id": 7,
-                "day": 3,
-                "distant": 0
-            }
-        ],
-        "total": 40
-    },
-    {
-        "id": 2,
-        "name": "Harmon",
-        "running": [
-            {
-                "id": 2,
-                "day": 1,
-                "distant": 5
-            },
-            {
-                "id": 5,
-                "day": 2,
-                "distant": 0
-            },
-            {
-                "id": 8,
-                "day": 3,
-                "distant": 15
-            }
-        ],
-        "total": 20
-    },
-    {
-        "id": 3,
-        "name": "Benny",
-        "running": [
-            {
-                "id": 3,
-                "day": 1,
-                "distant": 20
-            },
-            {
-                "id": 6,
-                "day": 2,
-                "distant": 2
-            },
-            {
-                "id": 9,
-                "day": 3,
-                "distant": 7
-            }
-        ],
-        "total": 29
-    }
-]);
+  useEffect(() => {
+    fetch(`${API_HOST}runner/`, {
+      method: 'GET',
+      // mode: 'no-cors',
+    }).then(response => response.json())
+      .then(data => setTables(data));
+  }, []);
 
   const onChangeName = (e: any, id: number) => {
     var newArr = [...tables];
     for (var i in newArr) {
-      if (newArr[i].id === id) {
+      if (newArr[i].runner_id === id) {
         newArr[i].name = e.target.value;
         break;
       };
@@ -276,7 +209,7 @@ function App() {
     var newArr = [...tables];
     for (var i in newArr) {
       for (var j in newArr[i].running) {
-        if (newArr[i].running[j].id === id) {
+        if (newArr[i].running[j].running_id === id) {
           newArr[i].running[j].distant = e.target.value;
           break;
         };
@@ -285,91 +218,109 @@ function App() {
     setTables(newArr);
   }
 
-  const Test = () => {
-    // var day = 0;
-    // for (var i in tables[0].running) {
-    //   day <= tables[0].running[i].day ? day = tables[0].running[i].day : day = day;
-    // }
+  const onSubmit = () => {
+    fetch(`${API_HOST}runner/runnerPut/`, {
+      method: 'Put',
+      // mode: 'no-cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(tables)
+    }).then(response => response.json())
+      .then(data => {
+        fetch(`${API_HOST}runner/`, {
+          method: 'GET',
+          // mode: 'no-cors',
+        }).then(response => response.json())
+          .then(data => setTables(data))
+      }).catch(error => console.log(error));
   }
 
-  return (
-    <div>
-      <TopBar>
-        <Logo>
-          <FaRunning style={{ color: "#374C70", width: "28px", height: "auto", marginRight: "8px" }} />
-          <FcMenu style={{ color: "#9BB1DB", width: "20px", height: "auto" }} />
-        </Logo>
-        <Top>Run Table</Top>
-        <Top></Top>
-      </TopBar>
-      <Body>
-        <SideBar>
-          <SideBlock>
-            <BsTable style={{ color: "#00B6E6", width: "25px", height: "auto", marginBottom: "5px" }} />
-            <div style={{ color: "#00B6E6" }}>Tables</div>
-          </SideBlock>
-          <SideBlock >
-            <AiFillSignal style={{ color: "#90A3BD", width: "25px", height: "auto", marginBottom: "5px" }} />
-            <div style={{ color: "#90A3BD" }}>Ranking</div>
-          </SideBlock>
-        </SideBar>
-        <BoxContent>
-          <BoxInside>
-            <HeadContentName>
-              <BsTable />
-              <div>Tables</div>
-            </HeadContentName>
-            <Content>
-              <ContentInside>
-                <div>
-                  <TableHeader>
-                    <div>name table</div>
-                    <div>
-                      <Button>
-                        <ButtonContent>
-                          <IoMdAddCircleOutline style={{ color: "white" }} />
-                          <div>add runner</div>
-                        </ButtonContent>
-                      </Button>
-                      <Button>
-                        <ButtonContent>
-                          <IoMdAddCircleOutline style={{ color: "white" }} />
-                          <div>add day</div>
-                        </ButtonContent>
-                      </Button>
-                    </div>
-                  </TableHeader>
-                  <TableType>
-                    <TableColumn><div style={{ width: "25px" }}>No.</div></TableColumn>
-                    <TableColumn><DivName>Name</DivName></TableColumn>
-                    {console.log(tables)}
 
-                    {tables.length !== 0 && tables[0].running.map(table =>
-                      <TableColumn><DivWidth>Day {table.day}</DivWidth></TableColumn>
-                    )}
-                    <TableColumn><DivWidth>Total</DivWidth></TableColumn>
-                  </TableType>
-                  {tables.map((table, index) =>
-                    <TableType>
-                      <TableColumn><div style={{ width: "25px" }}>{index + 1}</div></TableColumn>
-                      <TableColumn><InputName value={table.name} onChange={(event: any) => onChangeName(event, table.id)}></InputName></TableColumn>
-                      {table.running.map((run) =>
-                        <TableColumn><InputWidth value={run.distant} onChange={(e: any) => onChangeNumber(e, run.id)}></InputWidth>KM</TableColumn>
-                      )}
-                      <TableColumn><DivWidth>{table.total} KM</DivWidth></TableColumn>
-                    </TableType>
+const Test = () => {
+  // var day = 0;
+  // for (var i in tables[0].running) {
+  //   day <= tables[0].running[i].day ? day = tables[0].running[i].day : day = day;
+  // }
+}
+
+return (
+  <div>
+    <TopBar>
+      <Logo>
+        <FaRunning style={{ color: "#374C70", width: "28px", height: "auto", marginRight: "8px" }} />
+        <FcMenu style={{ color: "#9BB1DB", width: "20px", height: "auto" }} />
+      </Logo>
+      <Top>Run Table</Top>
+      <Top></Top>
+    </TopBar>
+    <Body>
+      <SideBar>
+        <SideBlock>
+          <BsTable style={{ color: "#00B6E6", width: "25px", height: "auto", marginBottom: "5px" }} />
+          <div style={{ color: "#00B6E6" }}>Tables</div>
+        </SideBlock>
+        <SideBlock >
+          <AiFillSignal style={{ color: "#90A3BD", width: "25px", height: "auto", marginBottom: "5px" }} />
+          <div style={{ color: "#90A3BD" }}>Ranking</div>
+        </SideBlock>
+      </SideBar>
+      <BoxContent>
+        <BoxInside>
+          <HeadContentName>
+            <BsTable />
+            <div>Tables</div>
+          </HeadContentName>
+          <Content>
+            <ContentInside>
+              <div>
+                <TableHeader>
+                  <div>name table</div>
+                  <div>
+                    <Button>
+                      <ButtonContent>
+                        <IoMdAddCircleOutline style={{ color: "white" }} />
+                        <div>add runner</div>
+                      </ButtonContent>
+                    </Button>
+                    <Button>
+                      <ButtonContent>
+                        <IoMdAddCircleOutline style={{ color: "white" }} />
+                        <div>add day</div>
+                      </ButtonContent>
+                    </Button>
+                  </div>
+                </TableHeader>
+                <TableType>
+                  <TableColumn><div style={{ width: "25px" }}>No.</div></TableColumn>
+                  <TableColumn><DivName>Name</DivName></TableColumn>
+                  {tables.length !== 0 && tables[0].running.map(table =>
+                    <TableColumn key={table.day} ><DivWidth>Day {table.day}</DivWidth></TableColumn>
                   )}
+                  <TableColumn><DivWidth>Total</DivWidth></TableColumn>
+                </TableType>
+                {tables.map((table, index) =>
+                  <TableType >
+                    <TableColumn><div style={{ width: "25px" }}>{index + 1}</div></TableColumn>
+                    <TableColumn><InputName value={table.name} onChange={(event: any) => onChangeName(event, table.runner_id)}></InputName></TableColumn>
+                    {table.running.map((run) =>
+                      <TableColumn><InputWidth value={run.distant} onChange={(e: any) => onChangeNumber(e, run.running_id)}></InputWidth></TableColumn>
+                    )}
+                    <TableColumn><DivWidth>{table.total} KM</DivWidth></TableColumn>
+                  </TableType>
+                )}
 
 
-                </div>
-              </ContentInside>
-              <ButtonSubmit onClick={() => Test()}>Submit</ButtonSubmit>
-            </Content>
-          </BoxInside>
-        </BoxContent>
-      </Body>
-    </div>
-  );
+              </div>
+            </ContentInside>
+            <ButtonSubmit onClick={() => onSubmit()}>Submit</ButtonSubmit>
+          </Content>
+        </BoxInside>
+      </BoxContent>
+    </Body>
+  </div>
+);
 }
 
 export default App;

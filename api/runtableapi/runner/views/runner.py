@@ -14,7 +14,7 @@ class RunnerView(APIView):
     def get(self, request):
         data = []
 
-        runners = Runner.objects.all().order_by('-total')
+        runners = Runner.objects.all().order_by("-total") # ('-total')
         for runner in runners:
             run_data = []
             total = 0
@@ -23,7 +23,7 @@ class RunnerView(APIView):
             for running in runnings:
                 run_data.append(
                     {
-                        "id": running.id,
+                        "running_id": running.running_id,
                         "day": running.day,
                         "distant": running.distant
                     }
@@ -32,10 +32,15 @@ class RunnerView(APIView):
 
             data.append(
                 {
-                    "id": runner.id,
+                    "runner_id": runner.runner_id,
                     "name": runner.name,
                     "running": run_data,
                     "total": total
                 }
             )
         return Response(data,status=status.HTTP_200_OK)
+
+    # def get(self, request):
+    #     run = Running.objects.all()
+    #     serializer = RunningSerializer(run, many=True)
+    #     return Response(serializer.data,status=status.HTTP_200_OK)
