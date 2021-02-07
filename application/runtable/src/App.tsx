@@ -210,7 +210,7 @@ function App() {
     for (var i in newArr) {
       for (var j in newArr[i].running) {
         if (newArr[i].running[j].running_id === id) {
-          newArr[i].running[j].distant = e.target.value;
+          newArr[i].running[j].distant = e.target.valueAsNumber;
           break;
         };
       }
@@ -305,7 +305,7 @@ return (
                     <TableColumn><div style={{ width: "25px" }}>{index + 1}</div></TableColumn>
                     <TableColumn><InputName value={table.name} onChange={(event: any) => onChangeName(event, table.runner_id)}></InputName></TableColumn>
                     {table.running.map((run) =>
-                      <TableColumn><InputWidth value={run.distant} onChange={(e: any) => onChangeNumber(e, run.running_id)}></InputWidth></TableColumn>
+                      <TableColumn><InputWidth type="number" value={run.distant} onChange={(e: any) => onChangeNumber(e, run.running_id)}></InputWidth></TableColumn>
                     )}
                     <TableColumn><DivWidth>{table.total} KM</DivWidth></TableColumn>
                   </TableType>
