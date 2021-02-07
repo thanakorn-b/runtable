@@ -6,6 +6,7 @@ import { FcMenu } from 'react-icons/fc';
 import { BsTable } from 'react-icons/bs';
 import { AiFillSignal } from 'react-icons/ai';
 import { IoMdAddCircleOutline } from 'react-icons/io';
+import { AiFillDelete } from 'react-icons/ai';
 
 const TopBar = styled.div`
   height: 50px;
@@ -14,6 +15,7 @@ const TopBar = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid #E9EAEE;
   position: fixed;
+  width: 100%;
 `;
 
 const Logo = styled.div`
@@ -85,6 +87,9 @@ const Button = styled.button`
   border-radius: 3px;
   background-color: #00B6E6;
   margin-left: 10px;
+  &:hover{
+    background-color: rgb(0, 113, 145);
+  }
 `;
 
 const ButtonSubmit = styled.button`
@@ -95,6 +100,9 @@ const ButtonSubmit = styled.button`
   background-color: rgb(0, 182, 230);
   margin-bottom: 7px;
   color: white;
+  &:hover{
+    background-color: rgb(0, 113, 145);
+  }
 `;
 
 const ButtonContent = styled.div`
@@ -175,6 +183,21 @@ const InputWidth = styled.input`
   border-color: transparent;
 `;
 
+const ButtomDelete = styled.button`
+  border-color: transparent;
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  background-color: rgb(221, 27, 27);
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: rgb(163, 21, 21);
+  }
+`;
+
 interface Table {
   runner_id: number,
   name: string,
@@ -237,90 +260,109 @@ function App() {
       }).catch(error => console.log(error));
   }
 
+  const onAddMember = () => {
+    fetch(`${API_HOST}runner/runnerAddMember/`, {
+      method: 'Post',
+      // mode: 'no-cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then(response => response.json())
+      .then(data => {
+        fetch(`${API_HOST}runner/`, {
+          method: 'GET',
+          // mode: 'no-cors',
+        }).then(response => response.json())
+          .then(data => setTables(data))
+      }).catch(error => console.log(error));
+  }
 
-const Test = () => {
-  // var day = 0;
-  // for (var i in tables[0].running) {
-  //   day <= tables[0].running[i].day ? day = tables[0].running[i].day : day = day;
-  // }
-}
 
-return (
-  <div>
-    <TopBar>
-      <Logo>
-        <FaRunning style={{ color: "#374C70", width: "28px", height: "auto", marginRight: "8px" }} />
-        <FcMenu style={{ color: "#9BB1DB", width: "20px", height: "auto" }} />
-      </Logo>
-      <Top>Run Table</Top>
-      <Top></Top>
-    </TopBar>
-    <Body>
-      <SideBar>
-        <SideBlock>
-          <BsTable style={{ color: "#00B6E6", width: "25px", height: "auto", marginBottom: "5px" }} />
-          <div style={{ color: "#00B6E6" }}>Tables</div>
-        </SideBlock>
-        <SideBlock >
-          <AiFillSignal style={{ color: "#90A3BD", width: "25px", height: "auto", marginBottom: "5px" }} />
-          <div style={{ color: "#90A3BD" }}>Ranking</div>
-        </SideBlock>
-      </SideBar>
-      <BoxContent>
-        <BoxInside>
-          <HeadContentName>
-            <BsTable />
-            <div>Tables</div>
-          </HeadContentName>
-          <Content>
-            <ContentInside>
-              <div>
-                <TableHeader>
-                  <div>name table</div>
-                  <div>
-                    <Button>
-                      <ButtonContent>
-                        <IoMdAddCircleOutline style={{ color: "white" }} />
-                        <div>add runner</div>
-                      </ButtonContent>
-                    </Button>
-                    <Button>
-                      <ButtonContent>
-                        <IoMdAddCircleOutline style={{ color: "white" }} />
-                        <div>add day</div>
-                      </ButtonContent>
-                    </Button>
-                  </div>
-                </TableHeader>
-                <TableType>
-                  <TableColumn><div style={{ width: "25px" }}>No.</div></TableColumn>
-                  <TableColumn><DivName>Name</DivName></TableColumn>
-                  {tables.length !== 0 && tables[0].running.map(table =>
-                    <TableColumn key={table.day} ><DivWidth>Day {table.day}</DivWidth></TableColumn>
-                  )}
-                  <TableColumn><DivWidth>Total</DivWidth></TableColumn>
-                </TableType>
-                {tables.map((table, index) =>
-                  <TableType >
-                    <TableColumn><div style={{ width: "25px" }}>{index + 1}</div></TableColumn>
-                    <TableColumn><InputName value={table.name} onChange={(event: any) => onChangeName(event, table.runner_id)}></InputName></TableColumn>
-                    {table.running.map((run) =>
-                      <TableColumn><InputWidth type="number" value={run.distant} onChange={(e: any) => onChangeNumber(e, run.running_id)}></InputWidth></TableColumn>
+  const Test = () => {
+    // var day = 0;
+    // for (var i in tables[0].running) {
+    //   day <= tables[0].running[i].day ? day = tables[0].running[i].day : day = day;
+    // }
+  }
+
+  return (
+    <div>
+      <TopBar>
+          <Logo>
+            <FaRunning style={{ color: "#374C70", width: "28px", height: "auto", marginRight: "8px" }} />
+            <FcMenu style={{ color: "#9BB1DB", width: "20px", height: "auto" }} />
+          </Logo>
+          <Top>Run Table</Top>
+          <Top></Top>
+      </TopBar>
+      <Body>
+        <SideBar>
+          <SideBlock>
+            <BsTable style={{ color: "#00B6E6", width: "25px", height: "auto", marginBottom: "5px" }} />
+            <div style={{ color: "#00B6E6" }}>Tables</div>
+          </SideBlock>
+          <SideBlock >
+            <AiFillSignal style={{ color: "#90A3BD", width: "25px", height: "auto", marginBottom: "5px" }} />
+            <div style={{ color: "#90A3BD" }}>Ranking</div>
+          </SideBlock>
+        </SideBar>
+        <BoxContent>
+          <BoxInside>
+            <HeadContentName>
+              <BsTable />
+              <div>Tables</div>
+            </HeadContentName>
+            <Content>
+              <ContentInside>
+                <div>
+                  <TableHeader>
+                    <div>name table</div>
+                    <div>
+                      <Button onClick={onAddMember}>
+                        <ButtonContent>
+                          <IoMdAddCircleOutline style={{ color: "white" }} />
+                          <div>add runner</div>
+                        </ButtonContent>
+                      </Button>
+                      <Button>
+                        <ButtonContent>
+                          <IoMdAddCircleOutline style={{ color: "white" }} />
+                          <div>add day</div>
+                        </ButtonContent>
+                      </Button>
+                    </div>
+                  </TableHeader>
+                  <TableType>
+                    <TableColumn><div style={{ width: "25px" }}>No.</div></TableColumn>
+                    <TableColumn><DivName>Name</DivName></TableColumn>
+                    {tables.length !== 0 && tables[0].running.map(table =>
+                      <TableColumn key={table.day} ><DivWidth>Day {table.day}</DivWidth></TableColumn>
                     )}
-                    <TableColumn><DivWidth>{table.total} KM</DivWidth></TableColumn>
+                    <TableColumn><DivWidth>Total</DivWidth></TableColumn>
                   </TableType>
-                )}
+                  {tables.map((table, index) =>
+                    <TableType >
+                      <TableColumn><div style={{ width: "25px" }}>{index + 1}</div></TableColumn>
+                      <TableColumn><InputName value={table.name} onChange={(event: any) => onChangeName(event, table.runner_id)}></InputName></TableColumn>
+                      {table.running.map((run) =>
+                        <TableColumn><InputWidth type="number" value={run.distant} onChange={(e: any) => onChangeNumber(e, run.running_id)}></InputWidth></TableColumn>
+                      )}
+                      <TableColumn><DivWidth>{table.total} KM</DivWidth></TableColumn>
+                      <ButtomDelete><AiFillDelete /></ButtomDelete>
+                    </TableType>
+                  )}
 
 
-              </div>
-            </ContentInside>
-            <ButtonSubmit onClick={() => onSubmit()}>Submit</ButtonSubmit>
-          </Content>
-        </BoxInside>
-      </BoxContent>
-    </Body>
-  </div>
-);
+                </div>
+              </ContentInside>
+              <ButtonSubmit onClick={() => onSubmit()}>Submit</ButtonSubmit>
+            </Content>
+          </BoxInside>
+        </BoxContent>
+      </Body>
+    </div>
+  );
 }
 
 export default App;

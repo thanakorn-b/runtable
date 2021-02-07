@@ -16,20 +16,8 @@ class RunnerPutView(APIView):
         dataTest = []
         dataTotal = []
         y = []
-        x =[]
-        
+        x =[]    
         dataRun = request.data
-
-        for i in Runner.objects.values_list('runner_id', flat=True): # .order_by('runner_id')
-            for item in dataRun:
-                if item['runner_id'] == i:
-                    y = item['running']
-                    z = 0
-                    for j in y:
-                        z = z + j['distant']
-                    print(z)
-                    # for i in y:
-                    #     x = x+i
 
         for i in Runner.objects.values_list('runner_id', flat=True): # .order_by('runner_id')
             dataTest = dataTest + dataRun[i-1]["running"]
@@ -47,9 +35,4 @@ class RunnerPutView(APIView):
                 if item['running_id'] == i:
                     Running.objects.filter(running_id=i).update(distant=item['distant'])
 
-        # for i in Runner.objects.values_list('runner_id', flat=True):
-        #     for item in dataRun:
-        #         if item['runner_id'] == i:
-        #             Runner.objects.filter(runner_id=i).update(total=item["total"])
-
-        return Response(z, status=status.HTTP_200_OK)
+        return Response(dataRun, status=status.HTTP_200_OK)
