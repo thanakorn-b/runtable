@@ -8,7 +8,8 @@ class Runner(models.Model):
     total = models.IntegerField(default=0)
 
     def __str__(self):
-        return (self.runner_id, self.name, self.total) # this change
+        # return (self.runner_id, self.name, self.total) # this change
+        return self.name
 
 class Running(models.Model):
     running_id = models.IntegerField(primary_key=True)
@@ -20,10 +21,15 @@ class Running(models.Model):
     def __str__(self):
         return "%s : day %s : %s km" % (self.runner, self.day, self.distant)
 
+    # def create(self, instance, valid_data):
+    #     instance.name = valid_data.get('name', instance.name)
+    #     instance.total = valid_data.get('total', instance.total)
+    #     instance.save()
+
     # def update(self, instance, valid_data):
     #     instance.running_id = valid_data.get('running_id', instance.running_id)
     #     instance.day = valid_data.get('day', instance.day)
     #     instance.distant = valid_data.get('distant', instance.distant)
-    #     # instance.name = valid_data.get('name', instance.name)
-    #     # instance.total = valid_data.get('total', instance.total)
+        # instance.name = valid_data.get('name', instance.name)
+        # instance.total = valid_data.get('total', instance.total)
     #     instance.save()

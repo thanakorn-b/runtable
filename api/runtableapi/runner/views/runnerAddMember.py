@@ -13,25 +13,49 @@ from ..models import Runner, Running
 
 class RunnerAddMemberView(APIView):
      def post(self, request, *arg, **kwargs):
-        datas = []
-        runnerLast = []
-        # Runner.objects.create(name="Name", total=0)
-        # print(Runner.objects.all())
+        Runner.objects.create(name="Name", total=0)
         
-        # running = Running.objects.values_list('day', flat=True)
-        # running = list( dict.fromkeys(running) )
-        # for i in running:
-        #     datas.append(
-        #         {
-        #             "day": i,
-        #             "distant": 0,
-        #         }
-        #     )
+        running = Running.objects.values_list('day', flat=True)
+        running = list( dict.fromkeys(running) )
+ 
+        for i in running:
+            Running.objects.create(day=i, distant=0 , runner= Runner.objects.get(runner_id=Runner.objects.count()))
 
+        return Response("", status=status.HTTP_200_OK)
+
+
+# def post(self, request, *arg, **kwargs):
+#         # datas = {}
+#         # runnerLast = []
+#         # Runner.objects.count()
+#         # datas = {
+#         #     "runner_id": Runner.objects.count(),
+#         #     # "name": "Name",
+#         #     # "total": 0,
+#         # }
+#         Runner.objects.create(name="Name", total=0)
         
+#         running = Running.objects.values_list('day', flat=True)
+#         running = list( dict.fromkeys(running) )
+#         # for i in running:
+#         #     datas.append(
+#         #         {
+#         #             "day": i,
+#         #             "distant": 0,
+#         #             "runner": {
+#         #                 Runner.objects.all().last
+#         #             }
+#         #         }
+#         #     )
+
+#         for i in running:
+#             Running.objects.create(day=i, distant=0 , runner= Runner.objects.get(runner_id=Runner.objects.count()))
+
+#         # Running.objects.create(datas)
 
 
-        return Response(datas, status=status.HTTP_200_OK)
-
+#         print(Running(day=1, distant=0 , runner= Runner.objects.get(runner_id=4)))
+#         # print()
+#         return Response("", status=status.HTTP_200_OK)
 
        
