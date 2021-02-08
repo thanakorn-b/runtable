@@ -145,6 +145,7 @@ const TableHeader = styled.div`
   align-items: center;
   height: 35px;
   border-bottom: 1px solid #E9EAEE;
+  width: 100%
 `;
 
 const TableType = styled.div`
@@ -153,6 +154,7 @@ const TableType = styled.div`
   display: flex;
   height: 49px;
   border-bottom: 1px solid #E9EAEE;
+  width: 100%
 `;
 
 const TableColumn = styled.div`
@@ -193,6 +195,7 @@ const ButtomDelete = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 40px;
   &:hover {
     background-color: rgb(163, 21, 21);
   }
@@ -276,8 +279,43 @@ function App() {
         }).then(response => response.json())
           .then(data => setTables(data))
       }).catch(error => console.log(error));
-  }
+  };
 
+  const onAddDay = () => {
+    fetch(`${API_HOST}runner/runnerAddDay/`, {
+      method: 'Post',
+      // mode: 'no-cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then(response => response.json())
+      .then(data => {
+        fetch(`${API_HOST}runner/`, {
+          method: 'GET',
+          // mode: 'no-cors',
+        }).then(response => response.json())
+          .then(data => setTables(data))
+      }).catch(error => console.log(error));
+  };
+
+  const onDelete = (id: number) => {
+    fetch(`${API_HOST}runner/runnerDelete/${id}/`, {
+      method: 'Delete',
+      // mode: 'no-cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then(response => response.json())
+      .then(data => {
+        fetch(`${API_HOST}runner/`, {
+          method: 'GET',
+          // mode: 'no-cors',
+        }).then(response => response.json())
+          .then(data => setTables(data))
+      }).catch(error => console.log(error));
+  };
 
   const Test = () => {
     // var day = 0;
@@ -325,7 +363,7 @@ function App() {
                           <div>add runner</div>
                         </ButtonContent>
                       </Button>
-                      <Button>
+                      <Button onClick={onAddDay}>
                         <ButtonContent>
                           <IoMdAddCircleOutline style={{ color: "white" }} />
                           <div>add day</div>
@@ -349,7 +387,7 @@ function App() {
                         <TableColumn><InputWidth type="number" value={run.distant} onChange={(e: any) => onChangeNumber(e, run.running_id)}></InputWidth></TableColumn>
                       )}
                       <TableColumn><DivWidth>{table.total} KM</DivWidth></TableColumn>
-                      <ButtomDelete><AiFillDelete /></ButtomDelete>
+                      <ButtomDelete onClick={() => onDelete(table.runner_id)}><AiFillDelete /></ButtomDelete>
                     </TableType>
                   )}
 

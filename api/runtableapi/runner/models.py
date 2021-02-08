@@ -10,6 +10,7 @@ class Runner(models.Model):
     def __str__(self):
         # return (self.runner_id, self.name, self.total) # this change
         return self.name
+        # return "%s : %s : %s" % (self.name, self.runner_id, self.total)
 
 class Running(models.Model):
     running_id = models.IntegerField(primary_key=True)

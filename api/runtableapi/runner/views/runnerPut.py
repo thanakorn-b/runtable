@@ -17,10 +17,12 @@ class RunnerPutView(APIView):
         dataTotal = []
         y = []
         x =[]    
+        index = 0
         dataRun = request.data
 
         for i in Runner.objects.values_list('runner_id', flat=True): # .order_by('runner_id')
-            dataTest = dataTest + dataRun[i-1]["running"]
+            index = index + 1
+            dataTest = dataTest + dataRun[index-1]["running"]
             for item in dataRun:
                 if item['runner_id'] == i:
                     Runner.objects.filter(runner_id=i).update(name=item["name"])
