@@ -145,7 +145,7 @@ const TableHeader = styled.div`
   align-items: center;
   height: 35px;
   border-bottom: 1px solid #E9EAEE;
-  width: 100%
+  width: 100%;
 `;
 
 const TableType = styled.div`
@@ -154,7 +154,7 @@ const TableType = styled.div`
   display: flex;
   height: 49px;
   border-bottom: 1px solid #E9EAEE;
-  width: 100%
+  width: 100%;
 `;
 
 const TableColumn = styled.div`
@@ -209,7 +209,8 @@ interface Table {
 };
 
 function App() {
-  const API_HOST = 'http://127.0.0.1:8000/';
+  const API_HOST = 'http://52.221.201.253:8000/';
+  // const API_HOST = 'http://127.0.0.1:8000/';
   const [tables, setTables] = useState<Table[]>([]);
 
   useEffect(() => {
