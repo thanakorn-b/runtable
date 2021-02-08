@@ -318,12 +318,6 @@ function App() {
       }).catch(error => console.log(error));
   };
 
-  const Test = () => {
-    // var day = 0;
-    // for (var i in tables[0].running) {
-    //   day <= tables[0].running[i].day ? day = tables[0].running[i].day : day = day;
-    // }
-  }
 
   return (
     <div>
