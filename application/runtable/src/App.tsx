@@ -68,6 +68,7 @@ const SideBlock = styled.div`
 
 const BoxContent = styled.div`
   margin-left: 100px;
+  /* width: 100vh; */
   width: 100%;
   height: 93vh;
   display: flex;
@@ -76,6 +77,8 @@ const BoxContent = styled.div`
 `;
 
 const BoxInside = styled.div`
+  /* width: 125vh;
+  height: 75vh; */
   width: 90%;
   height: 80%;
 `;
@@ -139,26 +142,34 @@ const HeadContentName = styled.div`
 `;
 
 const TableHeader = styled.div`
+  height: 67px;
+  border-bottom: 1px solid #E9EAEE;
+  width: 100%;
+`;
+
+const TableHeaderInside = styled.div`
   padding: 16px 20px 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 35px;
-  border-bottom: 1px solid #E9EAEE;
-  width: 100%;
 `;
 
 const TableType = styled.div`
   align-items: center;
-  padding: 0px 20px;
+  /* padding: 0px 20px; */
   display: flex;
-  height: 49px;
-  border-bottom: 1px solid #E9EAEE;
+  /* height: 49px; */
+  /* border-bottom: 1px solid #E9EAEE; */
   width: 100%;
 `;
 
 const TableColumn = styled.div`
-  margin-right: 20px;
+  height: 49px;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  padding: 0px 20px;
+  border-bottom: 1px solid #E9EAEE;
 `;
 
 const DivWidth = styled.div`
@@ -209,8 +220,8 @@ interface Table {
 };
 
 function App() {
-  const API_HOST = 'http://52.221.201.253:8000/';
-  // const API_HOST = 'http://127.0.0.1:8000/';
+  // const API_HOST = 'http://52.221.201.253:8000/';
+  const API_HOST = 'http://127.0.0.1:8000/';
   const [tables, setTables] = useState<Table[]>([]);
 
   useEffect(() => {
@@ -322,12 +333,12 @@ function App() {
   return (
     <div>
       <TopBar>
-          <Logo>
-            <FaRunning style={{ color: "#374C70", width: "28px", height: "auto", marginRight: "8px" }} />
-            <FcMenu style={{ color: "#9BB1DB", width: "20px", height: "auto" }} />
-          </Logo>
-          <Top>Run Table</Top>
-          <Top></Top>
+        <Logo>
+          <FaRunning style={{ color: "#374C70", width: "28px", height: "auto", marginRight: "8px" }} />
+          <FcMenu style={{ color: "#9BB1DB", width: "20px", height: "auto" }} />
+        </Logo>
+        <Top>Run Table</Top>
+        <Top></Top>
       </TopBar>
       <Body>
         <SideBar>
@@ -347,47 +358,51 @@ function App() {
               <div>Tables</div>
             </HeadContentName>
             <Content>
-              <ContentInside>
+              <TableHeader>
+                <TableHeaderInside>
+                <div>name table</div>
                 <div>
-                  <TableHeader>
-                    <div>name table</div>
-                    <div>
-                      <Button onClick={onAddMember}>
-                        <ButtonContent>
-                          <IoMdAddCircleOutline style={{ color: "white" }} />
-                          <div>add runner</div>
-                        </ButtonContent>
-                      </Button>
-                      <Button onClick={onAddDay}>
-                        <ButtonContent>
-                          <IoMdAddCircleOutline style={{ color: "white" }} />
-                          <div>add day</div>
-                        </ButtonContent>
-                      </Button>
-                    </div>
-                  </TableHeader>
+                  <Button onClick={onAddMember}>
+                    <ButtonContent>
+                      <IoMdAddCircleOutline style={{ color: "white" }} />
+                      <div>add runner</div>
+                    </ButtonContent>
+                  </Button>
+                  <Button onClick={onAddDay}>
+                    <ButtonContent>
+                      <IoMdAddCircleOutline style={{ color: "white" }} />
+                      <div>add day</div>
+                    </ButtonContent>
+                  </Button>
+                </div>
+                </TableHeaderInside>
+              </TableHeader>
+              
+              <ContentInside>
+
                   <TableType>
                     <TableColumn><div style={{ width: "25px" }}>No.</div></TableColumn>
                     <TableColumn><DivName>Name</DivName></TableColumn>
+                    <TableColumn><DivWidth>Total</DivWidth></TableColumn>
                     {tables.length !== 0 && tables[0].running.map(table =>
                       <TableColumn key={table.day} ><DivWidth>Day {table.day}</DivWidth></TableColumn>
                     )}
-                    <TableColumn><DivWidth>Total</DivWidth></TableColumn>
+
                   </TableType>
                   {tables.map((table, index) =>
                     <TableType >
                       <TableColumn><div style={{ width: "25px" }}>{index + 1}</div></TableColumn>
                       <TableColumn><InputName value={table.name} onChange={(event: any) => onChangeName(event, table.runner_id)}></InputName></TableColumn>
+                      <TableColumn><DivWidth>{table.total} KM</DivWidth></TableColumn>
                       {table.running.map((run) =>
                         <TableColumn><InputWidth type="number" value={run.distant} onChange={(e: any) => onChangeNumber(e, run.running_id)}></InputWidth></TableColumn>
                       )}
-                      <TableColumn><DivWidth>{table.total} KM</DivWidth></TableColumn>
+
                       <ButtomDelete onClick={() => onDelete(table.runner_id)}><AiFillDelete /></ButtomDelete>
                     </TableType>
                   )}
 
 
-                </div>
               </ContentInside>
               <ButtonSubmit onClick={() => onSubmit()}>Submit</ButtonSubmit>
             </Content>

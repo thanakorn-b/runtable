@@ -25,7 +25,8 @@ class RunnerView(APIView):
                     {
                         "running_id": running.running_id,
                         "day": running.day,
-                        "distant": running.distant
+                        "distant": running.distant,
+                        "date": running.date,
                     }
                 )
                 total += running.distant
@@ -35,7 +36,7 @@ class RunnerView(APIView):
                     "runner_id": runner.runner_id,
                     "name": runner.name,
                     "running": run_data,
-                    "total": total
+                    "total": total,
                 }
             )
         return Response(data,status=status.HTTP_200_OK)

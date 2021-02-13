@@ -1,6 +1,7 @@
 from django.db import models
+from django.utils import timezone, dateformat
 
-
+formatted_date = dateformat.format(timezone.now(), 'Y-m-d')
 
 class Runner(models.Model):
     runner_id = models.IntegerField(primary_key=True)
@@ -15,12 +16,13 @@ class Runner(models.Model):
 class Running(models.Model):
     running_id = models.IntegerField(primary_key=True)
     day = models.IntegerField()
-    distant = models.IntegerField()
+    distant = models.DecimalField(max_digits=10, decimal_places=3)
+    date = models.CharField(max_length=10, default=formatted_date)
 
     runner = models.ForeignKey(Runner, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return "%s : day %s : %s km" % (self.runner, self.day, self.distant)
+        return "%s : day %s : %s km : %s" % (self.runner, self.day, self.distant, self.date)
 
     # def create(self, instance, valid_data):
     #     instance.name = valid_data.get('name', instance.name)
