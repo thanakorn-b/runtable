@@ -69,7 +69,7 @@ const SideBlock = styled.div`
 const BoxContent = styled.div`
   margin-left: 100px;
   /* width: 100vh; */
-  width: 100%;
+  width: 90%;
   height: 93vh;
   display: flex;
   flex-direction: column;
@@ -156,10 +156,10 @@ const TableHeaderInside = styled.div`
 
 const TableType = styled.div`
   align-items: center;
-  /* padding: 0px 20px; */
+  padding: 0px 20px;
   display: flex;
-  /* height: 49px; */
-  /* border-bottom: 1px solid #E9EAEE; */
+  height: 49px;
+  border-bottom: 1px solid #E9EAEE;
   width: 100%;
 `;
 
@@ -215,7 +215,7 @@ const ButtomDelete = styled.button`
 interface Table {
   runner_id: number,
   name: string,
-  running: { running_id: number, day: number, distant: number }[],
+  running: { running_id: number, day: number, distant: number, date: string }[],
   total: number,
 };
 
@@ -231,6 +231,18 @@ function App() {
     }).then(response => response.json())
       .then(data => setTables(data));
   }, []);
+
+  const onChangeDate = (e: any, day: number) => {
+    var newArr = [...tables];
+    for (var i in newArr) {
+      // if (newArr[i].running) {
+      //   newArr[i].name = e.target.value;
+      //   break;
+      // };
+      newArr[i].running[day-1].date = e.target.value
+    };
+    setTables(newArr);
+  }
 
   const onChangeName = (e: any, id: number) => {
     var newArr = [...tables];
@@ -257,6 +269,7 @@ function App() {
   }
 
   const onSubmit = () => {
+    console.log(tables)
     fetch(`${API_HOST}runner/runnerPut/`, {
       method: 'Put',
       // mode: 'no-cors',
@@ -385,7 +398,7 @@ function App() {
                     <TableColumn><DivName>Name</DivName></TableColumn>
                     <TableColumn><DivWidth>Total</DivWidth></TableColumn>
                     {tables.length !== 0 && tables[0].running.map(table =>
-                      <TableColumn key={table.day} ><DivWidth>Day {table.day}</DivWidth></TableColumn>
+                      <TableColumn key={table.day} ><InputWidth value={table.date} onChange={(event: any) => onChangeDate(event, table.day)}></InputWidth></TableColumn>
                     )}
 
                   </TableType>

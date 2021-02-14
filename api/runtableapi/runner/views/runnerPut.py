@@ -35,6 +35,6 @@ class RunnerPutView(APIView):
         for i in Running.objects.values_list('running_id', flat=True):
             for item in dataTest:
                 if item['running_id'] == i:
-                    Running.objects.filter(running_id=i).update(distant=item['distant'])
+                    Running.objects.filter(running_id=i).update(distant=item['distant'], date=item['date'])
 
         return Response(dataRun, status=status.HTTP_200_OK)

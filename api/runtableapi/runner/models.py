@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone, dateformat
 
-formatted_date = dateformat.format(timezone.now(), 'Y-m-d')
+formatted_date = dateformat.format(timezone.now(), 'm-d')
 
 class Runner(models.Model):
     runner_id = models.IntegerField(primary_key=True)
