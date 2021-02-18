@@ -5,6 +5,7 @@ from .views.runnerPut import RunnerPutView
 from .views.runnerAddMember import RunnerAddMemberView
 from .views.runnerAddDay import RunnerAddDayView
 from .views.runnerDelete import RunnerDeleteView
+from .views.ranking import RankingView
 
 urlpatterns = [
     path(
@@ -31,5 +32,10 @@ urlpatterns = [
         'runnerDelete/<int:run_id>/',
         RunnerDeleteView.as_view(),
         name='runner_delete'
+    ),
+    path(
+        'ranking/',
+        RankingView.as_view(),
+        name='get_ranking'
     ),
 ]
