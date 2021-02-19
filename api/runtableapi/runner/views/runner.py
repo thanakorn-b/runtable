@@ -36,7 +36,7 @@ class RunnerView(APIView):
                     "runner_id": runner.runner_id,
                     "name": runner.name,
                     "running": run_data,
-                    "total": total
+                    "total": total,
                 }
             )
 

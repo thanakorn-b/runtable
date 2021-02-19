@@ -27,7 +27,7 @@ class RunnerPutView(APIView):
                 if item['runner_id'] == i:
                     Runner.objects.filter(runner_id=i).update(name=item["name"])
                     y = item['running']
-                    z = 0
+                    z = 0.00
                     for j in y:
                         z = z + j['distant']
                     Runner.objects.filter(runner_id=i).update(total=z)

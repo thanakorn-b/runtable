@@ -6,7 +6,7 @@ formatted_date = dateformat.format(timezone.now(), 'm-d')
 class Runner(models.Model):
     runner_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50, default="")
-    total = models.IntegerField(default=0)
+    total = models.DecimalField(default=0, max_digits=10, decimal_places=3)
 
     def __str__(self):
         # return (self.runner_id, self.name, self.total) # this change
