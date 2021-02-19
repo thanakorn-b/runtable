@@ -4,7 +4,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  NavLink,
 } from "react-router-dom";
 
 
@@ -63,7 +64,6 @@ const SideBar = styled.div`
 
 const SideBlock = styled.div`
   background-color: #304262;
-  margin-top: 14px;
   width: 72px;
   height: 80px;
   padding-right: 4px;
@@ -71,8 +71,8 @@ const SideBlock = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-left: 4px solid #00B6E6;
 `;
+
 
 
 function App() {
@@ -89,25 +89,28 @@ function App() {
       </TopBar>
       <Body>
         <SideBar>
-          <SideBlock>
-            <BsTable style={{ color: "#00B6E6", width: "25px", height: "auto", marginBottom: "5px" }} />
-            <Link to="/" style={{ color: "#00B6E6" }}>Tables</Link>
-          </SideBlock>
-          <SideBlock >
-            <AiFillSignal style={{ color: "#90A3BD", width: "25px", height: "auto", marginBottom: "5px" }} />
-            <Link to="/ranking" style={{ color: "#90A3BD" }}>Ranking</Link>
-          </SideBlock>
+          <NavLink style={{color: "#90A3BD", borderLeft: "4px solid #304262", textDecoration: "none", marginTop: "14px" }} activeStyle={{ color: "#00B6E6", borderLeft: "4px solid #00B6E6" }} exact to="/">
+            <SideBlock>
+              <BsTable style={{ width: "25px", height: "auto", marginBottom: "5px" }} />
+              <div >Tables</div>
+            </SideBlock>
+          </NavLink>
+          <NavLink style={{color: "#90A3BD", borderLeft: "4px solid #304262", textDecoration: "none", marginTop: "14px" }} activeStyle={{ color: "#00B6E6", borderLeft: "4px solid #00B6E6"}} to="/ranking">
+            <SideBlock >
+              <AiFillSignal style={{ width: "25px", height: "auto", marginBottom: "5px" }} />
+              <div >Ranking</div>
+            </SideBlock>
+          </NavLink>
+
         </SideBar>
-          {/* {Tables()} */}
-          {/* {Ranking()} */}
-          <Switch>
-            <Route exact path="/">
-              <Tables />
-            </Route>
-            <Route path="/ranking">
-              <Ranking />
-            </Route>
-          </Switch>
+        <Switch>
+          <Route exact path="/">
+            <Tables />
+          </Route>
+          <Route path="/ranking">
+            <Ranking />
+          </Route>
+        </Switch>
       </Body>
     </Router>
   );

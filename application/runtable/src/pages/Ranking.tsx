@@ -62,7 +62,7 @@ const ContentChart = styled.div`
   height: 87%;
   align-items: flex-end;
   /* justify-content: space-between; */
-  /* overflow: scroll; */
+  overflow: scroll;
 `;
 
 const Graph = styled.div`
@@ -84,15 +84,6 @@ const TextName = styled.div`
   display: flex;
   text-align: center;
   transform: rotate(70deg) ;
-  /* position: fixed; */
-  /* justify-content: flex-end;
-  display: flex;
-  align-items: flex-end; */
-  /* width: 10px; */
-  /* display: inline; */
-  /* white-space: nowrap; */
-  /* display: inline-block; */
-  /* overflow: visible; */
 
 `;
 
