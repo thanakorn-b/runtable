@@ -93,8 +93,8 @@ interface Rank {
 };
 
 function Ranking() {
-  // const API_HOST = 'http://52.221.201.253:8000/';
-  const API_HOST = 'http://127.0.0.1:8000/';
+  const API_HOST = 'http://13.250.1.129:8000/';
+  // const API_HOST = 'http://127.0.0.1:8000/';
   const [ranks, setRanks] = useState<Rank[]>([]);
 
   useEffect(() => {
