@@ -19,7 +19,7 @@ class RunnerView(APIView):
             run_data = []
             total = 0
 
-            runnings = Running.objects.filter(runner=runner)
+            runnings = Running.objects.filter(runner=runner).order_by("-day")
             for running in runnings:
                 run_data.append(
                     {
