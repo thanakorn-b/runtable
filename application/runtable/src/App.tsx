@@ -98,7 +98,7 @@ function App() {
           <NavLink style={{color: "#90A3BD", borderLeft: "4px solid #304262", textDecoration: "none", marginTop: "14px" }} activeStyle={{ color: "#00B6E6", borderLeft: "4px solid #00B6E6"}} to="/ranking">
             <SideBlock >
               <AiFillSignal style={{ width: "25px", height: "auto", marginBottom: "5px" }} />
-              <div >Ranking</div>
+              <div >Ranking ldfosm,mvkljdkflsae</div>
             </SideBlock>
           </NavLink>
 
